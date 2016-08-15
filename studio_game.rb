@@ -1,8 +1,10 @@
-puts RUBY_VERSION
-greeting = "Welcome!"
+name1 = "larry"
 
-3.times do
-  puts greeting.upcase
-end
+health1 = 60
 
-puts Time.now
+puts "#{name1}'s health is #{health1 / 9.0}"
+puts "#{name1}'s health is #{health1 / 9}"
+
+name2 = "curly"
+name3 = "moe"
+puts "Players:\n\t#{name1}\n\t#{name2}\n\t#{name3}"
