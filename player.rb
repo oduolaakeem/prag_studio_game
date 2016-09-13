@@ -28,6 +28,10 @@ class Player
   def score
     @health + @name.length
   end
+
+  def strong?
+    @health > 100
+  end
 end
 
 # If current source file is the same as 
