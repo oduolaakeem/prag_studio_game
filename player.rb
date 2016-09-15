@@ -32,6 +32,10 @@ class Player
   def strong?
     @health > 100
   end
+
+  def <=>(other)
+    other.score <=> score
+  end
 end
 
 # If current source file is the same as 
