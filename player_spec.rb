@@ -1,5 +1,6 @@
 require_relative 'spec_helper'
 require_relative 'player'
+require_relative 'treasure_trove'
 
 # The describe method defines an example group, which takes the name of
 # the group as string or as a class name.
@@ -13,36 +14,48 @@ describe Player do
   # The it method defines a code example, and generally you want to use
   # a string that expresses the behavior your're expecting.
   it "has a capitalized name" do
-    #@player.name.should == "Larry"
+    # @player.name.should == "Larry"
+    # or
     expect(@player.name).to eq("Larry")
   end
 
   it "has an initial health" do
-    #@player.health.should == 150
+    # @player.health.should == 150
+    # or
     expect(@player.health).to eq(150)
   end
 
   it "has a string representation" do
-    #@player.to_s.should == "I'm Larry with a health of 150 and a score of 155."
-    expect(@player.to_s).to eq("I'm Larry with a health of 150 and a score of 155.")
+    @player.found_treasure(Treasure.new(:hammer, 50))
+    @player.found_treasure(Treasure.new(:hammer, 50))
+
+    # @player.to_s.should == "I'm Larry with health = 150, points = 100, and score = 250."
+    # or
+    expect(@player.to_s).to eq("I'm Larry with health = 150, points = 100, and score = 250.")
   end
 
-  it "computes a score as the sum of its health and length of name" do
-    #@player.score.should == (@initial_health + 5)
-    expect(@player.score).to eq(@initial_health + 5)
+  it "computes a score as the sum of its health and points" do
+    @player.found_treasure(Treasure.new(:hammer, 50))
+    @player.found_treasure(Treasure.new(:hammer, 50))
+
+    # @player.score.should == (@initial_health + 5)
+    # or
+    expect(@player.score).to eq(@initial_health + 50 + 50)
   end    
 
   it "increases health by 15 when w00ted" do
     @player.w00t
 
-    #@player.health.should == (initial_health + 15)
+    # @player.health.should == (initial_health + 15)
+    # or
     expect(@player.health).to eq(@initial_health + 15)
   end
 
   it "decreases health by 10 when blammed" do
     @player.blam
 
-    #@player.health.should == (initial_health - 10)
+    # @player.health.should == (initial_health - 10)
+    # or
     expect(@player.health).to eq(@initial_health - 10)
   end
 
@@ -53,8 +66,10 @@ describe Player do
     end
 
     it "is strong" do
-      #expect(@player.strong?).to eq(true)
-      #expect(@player.strong?).to be_truthy
+      # expect(@player.strong?).to eq(true)
+      # or
+      # expect(@player.strong?).to be_truthy
+      # or
       expect(@player).to be_strong
     end
   end
@@ -66,7 +81,8 @@ describe Player do
     end
 
     it "is wimpy" do
-      #expect(@player).to_not be_strong
+      # expect(@player).to_not be_strong
+      # or
       expect(@player).not_to be_strong
     end
   end
@@ -83,6 +99,22 @@ describe Player do
     it "is sorted by decreasing score" do
       expect(@players.sort).to eq([@player3, @player2, @player1])
     end
+  end
+
+  it "computes points as the sum of all treasure points" do
+    expect(@player.points).to eq(0)
+
+    @player.found_treasure(Treasure.new(:hammer, 50))
+
+    expect(@player.points).to eq(50)
+
+    @player.found_treasure(Treasure.new(:crowbar, 400))
+
+    expect(@player.points).to eq(450)
+
+    @player.found_treasure(Treasure.new(:hammer, 50))
+
+    expect(@player.points).to eq(500)
   end
 
 end
