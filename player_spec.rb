@@ -139,4 +139,12 @@ describe Player do
     ])
   end
 
+  it "can be created from a CSV string" do
+    string = "larry,95"
+    player = Player.from_csv(string)
+
+    expect(player.name).to eq("Larry")
+    expect(player.health).to eq(95)
+  end
+
 end

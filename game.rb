@@ -2,6 +2,8 @@ require_relative 'player'
 require_relative 'die'
 require_relative 'game_turn'
 require_relative 'treasure_trove'
+require 'pp'
+require 'csv'
 
 class Game
   attr_reader :title
@@ -55,11 +57,7 @@ class Game
       print_name_and_health(player)
     end
 
-    puts "\n#{@title} High Scores:"
-    @players.sort.each do |player|
-      formatted_name = player.name.ljust(20, ".")
-      puts "#{formatted_name} #{player.score}"
-    end
+    print_high_scores
 
     @players.each do |player|
       puts "\n#{player.name}'s point totals:"
@@ -76,10 +74,38 @@ class Game
     @players.reduce(0) { |sum, player| sum + player.points }
   end
 
+  def load_players(from_file)
+    #File.readlines(from_file).each do |line|
+      #add_player(Player.from_csv(line))
+    CSV.foreach(from_file) do |row|
+      player = Player.new(row[0], Integer(row[1]))
+      add_player(player)
+    end
+  end
+
+  def save_high_scores(to_file="high_scores.txt")
+    File.open(to_file, "w") do |file|
+      print_high_scores(file)
+    end
+  end
+
   private
 
     def print_name_and_health(player)
       puts "#{player.name} (#{player.health})"
     end
+
+    def high_score_entry(player)
+      formatted_name = player.name.ljust(20, ".")
+      "#{formatted_name} #{player.score}"
+    end
+
+    def print_high_scores(file=$stdout)
+      prefix = "\n" if file == $stdout
+      file.puts "#{prefix}#{@title} High Scores:"
+      @players.sort.each do |player|
+        file.puts high_score_entry(player)
+      end
+    end      
 
 end
