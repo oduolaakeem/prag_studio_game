@@ -57,8 +57,6 @@ class Game
       print_name_and_health(player)
     end
 
-    print_high_scores
-
     @players.each do |player|
       puts "\n#{player.name}'s point totals:"
       player.each_found_treasure do |treasure|
@@ -68,6 +66,8 @@ class Game
     end
 
     puts "\n#{total_points} total points from treasures found"
+
+    print_high_scores    
   end
 
   def total_points
