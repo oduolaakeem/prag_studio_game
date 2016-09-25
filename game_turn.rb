@@ -13,7 +13,7 @@ module GameTurn
       puts "#{player.name} was skipped."
     else
       player.w00t
-    end    
+    end
 
     treasure = TreasureTrove.random
     player.found_treasure(treasure)

@@ -1,8 +1,11 @@
 require_relative 'treasure_trove'
+require_relative 'playable'
 
 class Player
-  attr_accessor :name  
-  attr_reader :health
+  include Playable
+
+  attr_accessor :name
+  attr_accessor :health
 
   def initialize(name, health=100)
     @name = name.capitalize
@@ -11,7 +14,7 @@ class Player
   end
 
   def self.from_csv(string)
-    name, health = string.split(",")  
+    name, health = string.split(",")
     Player.new(name, Integer(health))
   end
 
@@ -23,23 +26,10 @@ class Player
     "I'm #{@name} with health = #{@health}, points = #{points}, and score = #{score}."
   end
 
-  def blam
-    @health -= 10
-    puts "#{@name} got blammed!"
-  end
-
-  def w00t
-    @health += 15
-    puts "#{@name} got w00ted!"
-  end
-
   def score
     @health + points
   end
 
-  def strong?
-    @health > 100
-  end
 
   def <=>(other)
     other.score <=> score
@@ -63,7 +53,7 @@ class Player
 
 end
 
-# If current source file is the same as 
+# If current source file is the same as
 # the name of the Ruby program file being run
 if __FILE__ == $0 # or $PROGRAM_NAME
   player = Player.new("moe")
